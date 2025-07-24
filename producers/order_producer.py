@@ -1,3 +1,5 @@
+print("🔥 Iniciando producer...", flush=True)
+
 import os
 import sys
 import json
@@ -9,7 +11,7 @@ from dotenv import load_dotenv
 
 sys.path.append(os.getcwd())
 
-from producers.pagseguro.gen_order import OrderGen
+from pagseguro.gen_order import OrderGen
 
 
 load_dotenv()
@@ -52,7 +54,10 @@ def main():
     KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "orders")
     LIMIT_NUM_ORDERS = os.getenv("LIMIT_NUM_ORDERS", "10000000")
 
-    print("EU ESTOU EXECUTANDO!")
+    print("O PRODUCER ESTÁ ATIVO")
+    print(f"KAFKA_BOOTSTRAP_SERVERS: {KAFKA_BOOTSTRAP_SERVERS}")
+    print(f"KAFKA_TOPIC: {KAFKA_TOPIC}")
+    print(f"LIMIT_NUM_ORDERS: {LIMIT_NUM_ORDERS}")
 
     # Inicia um gerador de vendas
     order_generator = OrderGen()

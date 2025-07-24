@@ -6,3 +6,4 @@ __pycache__/
 logs/
 venv/
 setup_project.sh
+.DS_Store

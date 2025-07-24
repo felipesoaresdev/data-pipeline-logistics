@@ -5,7 +5,9 @@ import pendulum
 from faker import Faker
 
 # sys.path.append(os.getcwd())
+
 from pagseguro.dataset.produtos_tech import produtos
+
 
 fake = Faker("pt_BR")
 Faker.seed(0)
@@ -76,6 +78,7 @@ def gen_payment_method(customer):
 def get_randon_customer(customers_file=None):
     if customers_file is None:
         customers_file = "pagseguro/dataset/customers_llm.json"
+
     with open(customers_file, "r", encoding="utf-8") as f:
         data = f.read()
         customers = json.loads(data)
@@ -168,7 +171,9 @@ if __name__ == "__main__":
     orders = []
     first = 0
 
+
     folder = "pagseguro/dataset/orders/"
+    
     os.makedirs(folder, exist_ok=True)
     for n in range(1, total + 1):
         orders.append(order_gen.generate())

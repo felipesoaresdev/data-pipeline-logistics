@@ -1,0 +1,10 @@
+agno
+groq
+openai
+# tavily-python
+# duckdb
+# pgvector
+# pypdf
+# "psycopg[binary]"
+sqlalchemy
+pymongo

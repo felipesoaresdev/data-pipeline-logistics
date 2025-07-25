@@ -1,0 +1,7 @@
+python-dotenv
+
+# Producer
+Faker
+pendulum
+kafka-python
+pymongo

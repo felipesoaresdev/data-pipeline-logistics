@@ -8,17 +8,18 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     ports:
-      - 9092:9092
+      - 29092:29092
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
-    # volumes:
-    #   - kafka_data:/tmp/kraft-combined-logs
     healthcheck:
       test: ["CMD", "nc", "-z", "127.0.0.1", "9092"]
       interval: 10s
@@ -42,6 +43,22 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       KAFKA_TOPIC: ${KAFKA_TOPIC:-orders}
       LIMIT_NUM_ORDERS: ${LIMIT_NUM_ORDERS:-10000000}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  consumer:
+    build:
+      context: ./consumers
+    container_name: consumer
+    image: consumer:0.0.1-pagseguro
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      KAFKA_TOPIC: ${KAFKA_TOPIC:-orders}
+
+      MONGODB_HOST: ${MONGODB_HOST:-mongodb:27017}
+      MONGODB_COLLECTION: ${MONGODB_STAGING_COLLECTION:-staging}
+
     depends_on:
       kafka:
         condition: service_healthy

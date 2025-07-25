@@ -1,4 +1,3 @@
-
 import os
 import sys
 import json
@@ -14,11 +13,12 @@ from pagseguro.gen_order import OrderGen
 
 load_dotenv()
 
+
 def set_producer_rate():
     PRODUCER_MAX_INTERVAL = os.getenv("PRODUCER_MAX_INTERVAL")
 
     if PRODUCER_MAX_INTERVAL is None or PRODUCER_MAX_INTERVAL == "":
-        dt = pendulum.now()
+        dt = pendulum.now("America/Fortaleza")
         hora = dt.hour
         # Hora de dormir
         if hora < 9 or hora > 21:
@@ -47,7 +47,8 @@ def build_producer(kafka_server):
 
 
 def main():
-    KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092")
+
+    KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:29092")
     KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "orders")
     LIMIT_NUM_ORDERS = os.getenv("LIMIT_NUM_ORDERS", "10000000")
 
@@ -56,15 +57,17 @@ def main():
     print(f"KAFKA_TOPIC: {KAFKA_TOPIC}")
     print(f"LIMIT_NUM_ORDERS: {LIMIT_NUM_ORDERS}")
 
-
-    # Inicia um gerador de vendas
+    # Inicia um gerador de vendas₢
     order_generator = OrderGen()
 
     # print(order_generator.generate(pendulum.now("America/Fortaleza")))
 
     try:
         # Connecta o producer
-        producer = build_producer(KAFKA_BOOTSTRAP_SERVERS)
+        producer = KafkaProducer(
+            bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
+            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+        )
 
         # Verifica se o kafka está ativo
         status = producer.bootstrap_connected()
@@ -75,16 +78,20 @@ def main():
 
     count = 0
     while count < int(LIMIT_NUM_ORDERS):
-        count += 1
-        payload = order_generator.generate(pendulum.now("America/Fortaleza"))
-        print(payload["id"])
+        try:
+            count += 1
+            payload = order_generator.generate(pendulum.now("America/Fortaleza"))
 
-        producer.send(KAFKA_TOPIC, value=payload)
-        producer.flush()
+            producer.send(KAFKA_TOPIC, value=payload)
+            producer.flush()
 
-        intervalo = randint(0, set_producer_rate())
-        print(f"Próxima venda em {intervalo}s")
-        sleep(randint(0, intervalo))
+            print(payload["id"])
+
+            intervalo = randint(0, set_producer_rate())
+            print(f"Próxima venda em {intervalo}s")
+            sleep(randint(0, intervalo))
+        except Exception as e:
+            print("ERRO:", e)
 
 
 if __name__ == "__main__":

@@ -5,12 +5,12 @@ from kafka import KafkaConsumer
 
 
 # Conecta no MongoDB e retorna a coleção
-def conectar_mongodb():
+def conectar_mongodb(db_name="meu_banco"):
     host = os.getenv(
         "MONGODB_HOST", "localhost:27017"
     )  # valor padrão caso a variável não exista
     client = MongoClient(f"mongodb://{host}")
-    db = client["meu_banco"]  # nome do banco
+    db = client[db_name]  # nome do banco
     return db
 
 

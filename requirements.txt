@@ -4,3 +4,8 @@ python-dotenv
 Faker
 pendulum
 kafka-python
+
+# Stremlit
+streamlit
+pandas
+plotly

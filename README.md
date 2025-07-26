@@ -26,6 +26,7 @@ Projeto de demonstração de uma **pipeline de dados orientada a eventos** para 
 
 Toda a comunicação entre os serviços acontece dentro de uma **rede Docker compartilhada**.
 
+
 ## 📁 Estrutura do Projeto
 
 ```plaintext
@@ -93,7 +94,6 @@ Esse agente acessa o MongoDB, agrupa os pedidos por **rota/estado**, e grava a s
 ```bash
 python llm/agente_categorizacao.py
 ```
-
 
 
 ## Contribuidores

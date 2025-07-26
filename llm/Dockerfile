@@ -14,4 +14,4 @@ ENV PYTHONPATH="${PYTHONPATH}:/app"
 RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
 
 # Comando padrão para rodar o script
-CMD ["python", "-u", "order_consumer.py"]
+CMD ["python", "-u", "agente_categorizacao.py"]

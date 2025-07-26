@@ -11,6 +11,22 @@ Projeto de demonstração de uma **pipeline de dados orientada a eventos** para 
 - Streamlit
 - Agno (para processamento com LLM)
 
+## 🗺️ Arquitetura da Solução
+
+
+
+- O **Producer** gera pedidos simulados e envia para o Kafka.
+- O **Consumer** consome esses pedidos, faz parsing e grava no MongoDB.
+- O **Agente LLM** classifica os pedidos com base em regras de negócio e os agrupa por rota.
+- O **Streamlit Dashboard** exibe os pedidos agrupados por rota.
+
+
+
+![alt text](Diagrama_projeto.png)
+
+Toda a comunicação entre os serviços acontece dentro de uma **rede Docker compartilhada**.
+
+
 ## 📁 Estrutura do Projeto
 
 ```plaintext
@@ -78,23 +94,6 @@ Esse agente acessa o MongoDB, agrupa os pedidos por **rota/estado**, e grava a s
 ```bash
 python llm/agente_categorizacao.py
 ```
-
-
-## 🗺️ Arquitetura da Solução
-
-
-
-- O **Producer** gera pedidos simulados e envia para o Kafka.
-- O **Consumer** consome esses pedidos, faz parsing e grava no MongoDB.
-- O **Agente LLM** classifica os pedidos com base em regras de negócio e os agrupa por rota.
-- O **Streamlit Dashboard** exibe os pedidos agrupados por rota.
-
-
-
-![alt text](Diagrama_projeto.png)
-
-Toda a comunicação entre os serviços acontece dentro de uma **rede Docker compartilhada**.
-
 
 
 ## Contribuidores

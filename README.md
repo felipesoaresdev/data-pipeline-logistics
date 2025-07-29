@@ -2,7 +2,7 @@
 
 Projeto de demonstração de uma **pipeline de dados orientada a eventos** para simulação de pedidos de vendas. Utiliza **Apache Kafka** para mensageria, **MongoDB** como base de dados NoSQL, e um agente LLM (Agno) para **categorização e roteamento inteligente dos pedidos**. Um painel interativo com **Streamlit** permite a visualização das rotas definidas para entrega.
 
-## 🔧 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - Docker & Docker Compose
 - Apache Kafka + Zookeeper
@@ -11,7 +11,7 @@ Projeto de demonstração de uma **pipeline de dados orientada a eventos** para 
 - Streamlit
 - Agno (para processamento com LLM)
 
-## 🗺️ Arquitetura da Solução
+##  Arquitetura da Solução
 
 
 
@@ -20,14 +20,14 @@ Projeto de demonstração de uma **pipeline de dados orientada a eventos** para 
 - O **Agente LLM** classifica os pedidos com base em regras de negócio e os agrupa por rota.
 - O **Streamlit Dashboard** exibe os pedidos agrupados por rota.
 
+## Diagrama da arquitetura do projeto
 
-
-![alt text](Diagrama_projeto.png)
+![Diagrama da arquitetura do projeto](Diagrama_projeto.png)
 
 Toda a comunicação entre os serviços acontece dentro de uma **rede Docker compartilhada**.
 
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```plaintext
 data-pipeline-logistics/
@@ -60,12 +60,12 @@ data-pipeline-logistics/
 └── README.md                      # Este arquivo
 ```
 
-## ⚙️ Requisitos
+##  Requisitos
 
 - [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
 - [Python 3.11+](https://www.python.org/) (caso deseje executar os scripts localmente)
 
-## 🚀 Como Executar
+##  Como Executar
 
 1. **Suba os serviços principais com Docker Compose:**
 
@@ -101,7 +101,7 @@ python llm/agente_categorizacao.py
 * [Kandarpa Galas](https://github.com/kandarpagalas/) 
 * [Winiston Freitas](https://github.com/winistonvf)
 
-## 📝 Licença
+##  Licença
 
 Este projeto é distribuído com o propósito de aprendizado e demonstração de arquitetura de pipelines de dados.  
 **Uso em produção não é recomendado sem adaptações.**
